@@ -1,2 +1,2 @@
 # Dice-Gambling-Game
-Just a project I made while learning Java
+Just a thing I made while learning Java
