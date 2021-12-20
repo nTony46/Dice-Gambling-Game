@@ -10,9 +10,7 @@ public class Account {
         return("Balance: $" + balance);
     }
 
-    public void add(int amount){
-        balance += amount;
-    }
+    public void add(int amount){ balance += amount; }
 
     public void subtract(int amount){
         if (balance <= amount){
@@ -21,8 +19,4 @@ public class Account {
             balance -= amount;
         }
     }
-
-
-
-
 }

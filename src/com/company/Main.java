@@ -1,48 +1,42 @@
 package com.company;
-import java.util.Random;
 import java.util.Scanner;
 
-
 public class Main {
+
     public static void main(String[] args) {
-	// write your code here
+        System.out.println("Initializing Dice Gambling Game...");
         Dice dice = new Dice();
         Game game = new Game();
         Scanner myScanner = new Scanner(System.in);
-        Account test = new Account(10000);
 
+        System.out.print("Enter starting balance: ");
+        int startingBalance = myScanner.nextInt();
+        Account userAccount = new Account(startingBalance);
+        System.out.println();
 
-        while (test.balance > 0) {
-            System.out.println(test.getBalance());
-            System.out.println("How much do you want to bet?");
-            int bet = myScanner.nextInt();
-            System.out.println();
-            if (bet == 0) {
-                System.out.println("Successfully ended.");
+        while (userAccount.balance > 0) {
+            System.out.println(userAccount.getBalance());
+            int userBet = game.createGameBet();
+
+            while (userBet > userAccount.balance){
+                System.out.println("Bet is too high. Try again!");
+                userBet = game.createGameBet();
+            }
+            if (userBet == 0) {
+                System.out.println("Successfully ended with $" + userAccount.balance + ".");
                 break;
-            } if (bet > test.balance){
-                System.out.println("Bet too high. Try again!");
-                break;
-            } else {
-                int myRoll = dice.roll();
-                int houseRoll = dice.houseRoll();
-                game.printRolls(myRoll, houseRoll);
-                int result = game.compareRolls(myRoll, houseRoll);
-                if (result == 1) {
-                    test.balance += bet;
-                }
-                if (result == 2) {
-                    test.balance -= bet;
-                }
+            }
+            else {
+                int userRoll = dice.roll();
+                int houseRoll = dice.roll();
+                game.printRolls(userRoll, houseRoll);
+                int result = game.compareRolls(userRoll, houseRoll);
+
+                if (result == 1) userAccount.balance += userBet;
+                if (result == 2) userAccount.balance -= userBet;
                 System.out.println();
             }
         }
-        if (test.balance == 0){
-            System.out.println("You're broke sorry lol");
-        }
+        if (userAccount.balance == 0){ System.out.println("Not enough money to play."); }
     }
-
-
-
-
 }
